@@ -1,0 +1,119 @@
+<!-- 
+		Name: <Erica Cooper>
+		Date: <02/26/2016>
+		Class: CSCI2447, Javascript Fundamentals
+		Project X
+ -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>Whack-A-Mole (CSCI2447)</title>
+    
+  
+	<link href="css/game.css" rel="stylesheet" />
+    <script src="js/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript">
+	var score = 0
+	var time = 30
+	var t;
+	var moleRepeat;
+	$(document).ready(function(){
+	$('#start_button').click(function (){
+	start();
+	});
+	$('#gamespace').on('click' ,"img", function () {
+	counter();
+	$(this).hide();
+	});
+	$('#start_button').on('click',function() {
+    $(this).prop("disabled",true);
+	});
+	});
+	
+	function getYRandomNumber(){
+		return Math.floor((Math.random()*300)+0);
+	  };
+	  
+	function getXRandomNumber(){
+		return Math.floor((Math.random()*500)+0);
+	  };
+	 
+	 function interval() {
+		return Math.floor((Math.random()*2000)+0);
+	 };
+	 
+	 function counter() {
+	 score++;
+	 $("#score").html(score + ' pts');
+	 };
+	 
+	 function start() {
+	 $('#timer').show();
+	 decrement();
+	 if (time > 0) {
+	 addMole();
+	 };
+	 $('h1').css("color","purple");
+	 $('#gamespace').css("background-color", "green");
+	 };
+	 
+	 function deleteMole() {
+	 return Math.floor((Math.random() * 2500) +2000);
+	 };
+	 
+	 function decrement() {
+	 time--;
+	 $('#timer').html(time + ' seconds left');
+	 t = setTimeout('decrement()', 1000);
+	 if (time <=0){
+	 clearTimeout(t);
+	 if (time<=0){
+	  $('#start_button').prop("disabled", false)
+	  };
+	 alert('Game Over! You scored ' + score + ' pts!');
+	 location.reload();
+	 };
+	 };
+	 
+	 function addMole() {
+	 var xPos= getXRandomNumber();
+	 var yPos= getYRandomNumber();
+	 var random= interval();
+	 var count=0
+	 $('#gamespace').append('<img src="img/mole.jpg" style=top:' + yPos + 'px;left:' + xPos + 'px;" >');
+	 $("img").attr("img",function(count){ return count;}).fadeOut(deleteMole());
+	 moleRepeat = setTimeout('addMole()', random);
+	 if (time<=0){
+	 cleartTimeout(moleRepeat);
+	 };
+	 };
+	
+	</script>
+  </head>
+  <body>
+
+	<div id="content">
+
+		<h1>Whack-A-Mole</h1>
+		
+		<p>After clicking "start", you will have 30 seconds to click
+		as many moles as you can. The moles appear randomly so be ready! </p>
+		
+		<div id="controls">
+			<span id="score">0 pts</span>
+			<button type="button" id="start_button">Start!</button>
+		</div>
+		
+		<div id="timer">30 seconds left</div>
+		
+		<div id="gamespace">
+
+
+			
+		</div>
+		
+	</div>
+  </body>
+</html>
